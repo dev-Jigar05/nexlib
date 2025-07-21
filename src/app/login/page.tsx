@@ -34,7 +34,7 @@ const LoginPage: React.FC<LoginPageProps> = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
       <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border border-gray-200">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Login to nexLib</h2>
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Login</h2>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
