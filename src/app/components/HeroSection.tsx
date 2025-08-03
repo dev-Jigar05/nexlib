@@ -1,98 +1,40 @@
 "use client"
 import React from 'react';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react'; 
 
-// Define the props interface for HeroSection (if any props were needed, e.g., title, description)
-interface HeroSectionProps {
-  // You can add props here if you want to make the content dynamic
-  // title?: string;
-  // description?: string;
-  // ctaText?: string;
-  // ctaLink?: string;
-}
-
-const HeroSection: React.FC<HeroSectionProps> = () => {
+const HeroSection: React.FC = () => {
   return (
-    <section className="bg-gradient-to-br from-blue-500 to-purple-600 text-white py-20 px-4 sm:px-6 lg:px-8">
-      <div className="container mx-auto text-center">
+    <section className="bg-white dark:bg-slate-900">
+      <div className="container mx-auto flex flex-col items-center px-6 py-24 text-center sm:py-32">
+        
         {/* Hero Title */}
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 animate-fade-in-down">
-          Welcome to <span className="text-yellow-300">nexLib</span>
+        <h1 className="max-w-4xl text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-6xl">
+          Modern Library Management, <br />
+          Made Simple with <span className="text-blue-600 dark:text-blue-500">nexLib</span>
         </h1>
 
         {/* Hero Description */}
-        <p className="text-lg sm:text-xl lg:text-2xl mb-10 max-w-3xl mx-auto opacity-90 animate-fade-in">
-          Your modern solution for seamless library management. Discover, borrow, and manage your books with ease.
-          Streamline your library operations and enhance the user experience for both librarians and patrons.
+        <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
+          Discover, borrow, and manage your books with an intuitive platform. Streamline operations and enhance the experience for both librarians and patrons.
         </p>
 
         {/* Call-to-Action Buttons */}
-        <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6 mb-16 animate-fade-in-up">
-          <Link href="/signup" className="bg-white text-blue-700 hover:bg-gray-100 px-8 py-4 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-50">
+        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <Link
+            href="/signup"
+            className="inline-flex items-center justify-center rounded-md bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
             Get Started
           </Link>
-          <Link href="/about" className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-700 px-8 py-4 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-50">
-            Learn More
+          <Link
+            href="/about"
+            className="inline-flex items-center justify-center gap-x-2 rounded-md px-6 py-3 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+          >
+            Learn More <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-
-        {/* Secondary Call to Action */}
-        <div className="mt-16 text-center animate-fade-in-up">
-          <p className="text-xl mb-6">Ready to transform your library?</p>
-          <Link href="/signup" className="bg-yellow-300 text-blue-800 hover:bg-yellow-400 px-10 py-4 rounded-full text-xl font-bold shadow-lg transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50">
-            Sign Up
-          </Link>
-        </div>
-
       </div>
-
-      {/* Basic CSS for animations (can be moved to a global CSS file) */}
-      <style jsx>{`
-        @keyframes fadeInDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in-down {
-          animation: fadeInDown 1s ease-out forwards;
-        }
-
-        .animate-fade-in {
-          animation: fadeIn 1.2s ease-out forwards;
-          animation-delay: 0.3s; /* Delay for sequential animation */
-        }
-
-        .animate-fade-in-up {
-          animation: fadeInUp 1.4s ease-out forwards;
-          animation-delay: 0.6s; /* Delay for sequential animation */
-        }
-      `}</style>
     </section>
   );
 };

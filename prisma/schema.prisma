@@ -1,0 +1,20 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql" // You can change this to "mysql" or "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Book {
+  id     String @id @default(cuid())
+  title  String
+  author String
+  isbn   String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

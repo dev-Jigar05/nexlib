@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { Loader2 } from "lucide-react"; // Icon for loading state
 
 interface LoginPageProps {}
 
@@ -20,25 +21,32 @@ const LoginPage: React.FC<LoginPageProps> = () => {
       // Simulate API call delay
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log("Login successful!", { email, password });
-
-      // Example redirect (uncomment if using next/navigation)
-      // const router = useRouter();
-      // router.push('/dashboard');
+      // Redirect to dashboard on success
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred. Please try again.");
+      setError("Invalid email or password. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md border border-gray-200">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Login</h2>
+    <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 p-4 dark:bg-slate-900">
+      <div className="w-full max-w-sm">
+        {/* Page Header */}
+        <div className="text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
+            Sign in to nexLib
+          </h1>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+            Welcome back! Please enter your details to continue.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Login Form */}
+        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+          {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
               Email Address
             </label>
             <input
@@ -47,63 +55,62 @@ const LoginPage: React.FC<LoginPageProps> = () => {
               name="email"
               autoComplete="email"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-gray-900"
+              className="mt-1 block w-full rounded-md border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50 dark:placeholder:text-slate-500"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
+          {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              Password
-            </label>
+            <div className="flex items-center justify-between">
+              <label htmlFor="password" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                Password
+              </label>
+              <Link
+                href="/forgot-password"
+                className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500"
+              >
+                Forgot password?
+              </Link>
+            </div>
             <input
               type="password"
               id="password"
               name="password"
               autoComplete="current-password"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 transition duration-200 text-gray-900"
+              className="mt-1 block w-full rounded-md border-slate-300 bg-white px-3 py-2 text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-50 dark:placeholder:text-slate-500"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
 
-          {error && (
-            <div className="text-red-600 text-sm text-center">{error}</div>
-          )}
+          {error && <p className="text-sm text-red-500 text-center">{error}</p>}
 
-          <div className="flex items-center justify-between">
-            <Link
-              href="/forgot-password"
-              className="text-sm text-blue-600 hover:text-blue-800 transition-colors duration-200"
-            >
-              Forgot password?
-            </Link>
-          </div>
-
+          {/* Submit Button */}
           <button
             type="submit"
-            className={`w-full bg-blue-600 text-white py-3 px-4 rounded-md font-semibold text-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300 ${
-              loading ? "opacity-70 cursor-not-allowed" : ""
-            }`}
             disabled={loading}
+            className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
-        <div className="mt-8 text-center text-sm text-gray-600">
-          Don't have an account?{" "}
+        {/* Link to Sign Up */}
+        <p className="mt-8 text-center text-sm text-slate-600 dark:text-slate-400">
+          Don't have an account?{' '}
           <Link
             href="/signup"
-            className="font-medium text-blue-600 hover:text-blue-800 transition-colors duration-200"
+            className="font-semibold text-blue-600 hover:underline dark:text-blue-500"
           >
-            Sign Up
+            Sign up now
           </Link>
-        </div>
+        </p>
       </div>
     </div>
   );

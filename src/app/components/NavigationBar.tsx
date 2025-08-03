@@ -1,78 +1,85 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-
-interface NavLinkProps {
-  href: string;
-  text: string;
-  isMobile?: boolean;
-  onClick?: () => void;
-}
-
-const NavLink: React.FC<NavLinkProps> = ({ href, text, isMobile = false, onClick }) => (
-  <Link href={href} onClick={onClick}>
-    <span
-      className={`inline-block px-4 py-2 rounded-md font-semibold transition-all duration-300 cursor-pointer ${
-        isMobile
-          ? "bg-blue-600 text-white hover:bg-blue-700 w-full text-center"
-          : "bg-white text-blue-600 hover:bg-blue-100"
-      }`}
-    >
-      {text}
-    </span>
-  </Link>
-);
+import { Menu, X } from "lucide-react"; // Using lucide-react for consistency
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
+
+  // Close menu on route change
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
+  // Prevent scrolling when the mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    // Cleanup function to restore scrolling when the component unmounts
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isOpen]);
+
 
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-purple-700 p-4 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/95">
+      <div className="container mx-auto flex h-16 items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center space-x-2">
-          <img src="/WhiteNexLib.png" alt="NexLib Logo" className="h-10 w-auto" title="NexLib" />
+        <Link href="/" className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+          nexLib
         </Link>
 
-        {/* Desktop Navigation Buttons */}
-        <div className="hidden md:flex space-x-4">
-          <NavLink href="/login" text="Login" />
-          <NavLink href="/signup" text="Sign Up" />
-        </div>
+        {/* Desktop Navigation */}
+        <nav className="hidden items-center gap-6 md:flex">
+          <Link
+            href="/login"
+            className="text-sm font-medium text-slate-600 transition-colors hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-500"
+          >
+            Login
+          </Link>
+          <Link
+            href="/signup"
+            className="inline-flex h-9 items-center justify-center rounded-md bg-blue-600 px-4 text-sm font-medium text-white shadow-sm transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            Sign Up
+          </Link>
+        </nav>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden">
-          <button
-            onClick={toggleMenu}
-            className="text-white focus:outline-none focus:ring-2 focus:ring-white rounded-md p-2 transition-transform hover:scale-105"
-            aria-label="Toggle navigation menu"
-            aria-expanded={isOpen}
-          >
-            {isOpen ? (
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            )}
+          <button onClick={() => setIsOpen(true)} aria-label="Open navigation menu">
+            <Menu className="h-6 w-6 text-slate-800 dark:text-slate-200" />
           </button>
         </div>
       </div>
 
-      {/* Mobile Navigation Buttons */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="md:hidden bg-blue-700 mt-4 rounded-b-lg py-2 shadow-inner">
-          <div className="flex flex-col items-center space-y-2">
-            <NavLink href="/login" text="Login" isMobile onClick={toggleMenu} />
-            <NavLink href="/signup" text="Sign Up" isMobile onClick={toggleMenu} />
+        <div className="fixed inset-0 z-50 flex flex-col bg-white p-6 dark:bg-slate-900 md:hidden">
+          <div className="flex items-center justify-between">
+            <Link href="/" onClick={handleLinkClick} className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+              nexLib
+            </Link>
+            <button onClick={() => setIsOpen(false)} aria-label="Close navigation menu">
+              <X className="h-6 w-6 text-slate-800 dark:text-slate-200" />
+            </button>
           </div>
+          <nav className="mt-24 flex flex-col items-center gap-8">
+            <Link href="/login" onClick={handleLinkClick} className="text-xl font-medium text-slate-700 hover:text-blue-600 dark:text-slate-300">
+              Login
+            </Link>
+            <Link href="/signup" onClick={handleLinkClick} className="w-full max-w-xs rounded-md bg-blue-600 py-3 text-center text-xl font-medium text-white hover:bg-blue-700">
+              Sign Up
+            </Link>
+          </nav>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 
